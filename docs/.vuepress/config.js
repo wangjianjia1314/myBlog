@@ -1,5 +1,5 @@
 module.exports = {
-  title: "gegeの笔记分享",
+  title: "gegeの",
   description: "gege",
   base: "/myBlog/",
   themeConfig: {
