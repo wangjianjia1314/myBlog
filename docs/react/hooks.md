@@ -128,7 +128,7 @@ export default function ChildrenCom(props) {
 - git push -u origin master 提交到指定的分支
 - git remote -v 查看当前关联的远程仓库
 
-- remote rm origin 删除关联的远程仓库.
+- remote rm origin 删除关联的远程仓库
 
 - 查看公钥
   - cd ~/.ssh
