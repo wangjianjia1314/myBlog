@@ -114,7 +114,7 @@ export default function ChildrenCom(props) {
 
 - nvm ls 查看所有 node 版本
 - nvm use v10.0.0 切换 node 版本
-- nvm current 查看当前使用的版本
+- nvm current 查看当前使用的版本 222
 
 ## git
 
@@ -124,6 +124,11 @@ export default function ChildrenCom(props) {
 - git stash drop //将栈顶删除
 - git branch -a 查看本地分支和远端分支
 - git log 查看提交记录
+- git remote add origin https://github.com/username/username.github.io.git 关联远程仓库
+- git push -u origin master 提交到指定的分支
+- git remote -v 查看当前关联的远程仓库
+
+- remote rm origin 删除关联的远程仓库
 
 - 查看公钥
   - cd ~/.ssh

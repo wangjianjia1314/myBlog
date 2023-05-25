@@ -4,10 +4,12 @@
   "main": "index.js",
   "license": "MIT",
   "devDependencies": {
+    "gh-pages": "^5.0.0",
     "vuepress": "1.8.2"
   },
   "scripts": {
     "docs:dev": "vuepress dev docs",
-    "docs:build": "vuepress build docs"
+    "docs:build": "vuepress build docs",
+    "deploy": "vuepress build docs && gh-pages -d docs/.vuepress/dist"
   }
 }

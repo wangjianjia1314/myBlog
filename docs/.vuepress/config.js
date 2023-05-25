@@ -1,4 +1,7 @@
 module.exports = {
+  title: "gegeの笔记分享",
+  description: "gege",
+  base: "/myBlog/",
   themeConfig: {
     logo: "/assets/img/ava.png",
     nav: [
