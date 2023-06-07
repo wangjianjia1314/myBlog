@@ -10,6 +10,7 @@
   "scripts": {
     "docs:dev": "vuepress dev docs",
     "docs:build": "vuepress build docs",
-    "deploy": "vuepress build docs && gh-pages -d docs/.vuepress/dist"
+    "deploy": "vuepress build docs && gh-pages -d docs/.vuepress/dist",
+    "sh": "sh deploy.sh"
   }
 }

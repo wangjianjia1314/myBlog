@@ -17,3 +17,26 @@
 ## 类组件
 
 ## 函数组件
+
+## 自定义 ant 前缀
+
+```js
+// message 组件需要单独配置
+ConfigProvider.config({
+  prefixCls: 'ymx', // 4.13.0+
+});
+preProcessor: {
+  loader: 'less-loader',
+    options: {
+      lessOptions: {
+      javascriptEnabled: true,
+      modifyVars: {
+      '@ant-prefix': 'ymx', //这个处理css 文件带有ant 的
+      },
+    },
+  },
+},
+  <ConfigProvider locale={zhCN} prefixCls="ymx"> //将html class 替换为ymx
+  <App />
+  </ConfigProvider>
+```

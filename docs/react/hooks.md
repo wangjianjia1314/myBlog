@@ -14,6 +14,8 @@
   - 可以自定义更新 state 的 hook
 - 原因 异步代码和同步代码执行的分支不同 异步中不会设置 excutionContext 会进入 NoContext 进行同步 同步中会设置 excutionContext
 
+- 在 react18 中所有事件中多次 setState 会被合并为 1 次执行
+
 ```js
 // 也可以通过内置函数 unstable_batchedUpdates 包裹
 //自定义合并hook
@@ -46,11 +48,14 @@ useEffect(async () => {
 - 3 如果 state 关联变化，建议使用 useReducer
 - 4 业务逻辑如果很复杂，也建议使用 useReducer
 - 5 如果 state 只想用在 组件内部，建议使用 useState
+- 或者这次修改的 state 需要依赖之前的 state 时，也可以使用；
+- 相同的 reducer 数据是不会共享的，它们只是使用了相同的处理的函数而已。
 
 ```js
 const reducer = (state, action) => {
   switch (action.type) {
     case 'ADD':
+      console.log(state)// state 为更新之前的值
       return { name: 'bbb' }
     case 'DECREMENT':
       return { name: 'ccc' }
@@ -58,6 +63,7 @@ const reducer = (state, action) => {
       return state
   }
 }
+const [state, dispatch] = useReducer(reducer, { name: 'vvv' })
  <h2>{state.name}</h2>
  <button onClick={() => { dispatch({ type: 'ADD' }) }}>加加</button>
  <button onClick={() => { dispatch({ type: 'DECREMENT' }) }}>减减</button>
@@ -97,6 +103,7 @@ export default function ChildrenCom(props) {
 - 主要用于性能优化
 - 当我们一个组件 应用了多个子组件，子组件传递了相同的函数 props， 当父组件状态发生变化的时候 所有的组件都是重新 render。
 - 解决子组件并不会依赖某个变化的时候 可以通过 react.memo()将组件包裹 通过 useCallback 将包裹函数。此时 memo 的组件就会对 props 进行浅比较 不会出发更新 会读取缓存的值。
+- 事实上，经过一些测试，并没有更加节省内存，优化是需要和 memo 结合来使用。决定自组件是否需要重新渲染
 
 ## useMemo
 
@@ -109,32 +116,6 @@ export default function ChildrenCom(props) {
 - 可以用于获取 dom 或者缓存数据
 - useRef 返回一个可变的 ref 对象。
 - useRef 变化不会主动使页面渲染
-
-## nvm nodejs 管理工具
-
-- nvm ls 查看所有 node 版本
-- nvm use v10.0.0 切换 node 版本
-- nvm current 查看当前使用的版本 222
-
-## git
-
-- git stash //将本次修改暂存
-- git stash list //查看所有暂存
-- git stash pop //将暂存弹出一个
-- git stash drop //将栈顶删除
-- git branch -a 查看本地分支和远端分支
-- git log 查看提交记录
-- git remote add origin https://github.com/username/username.github.io.git 关联远程仓库
-- git push -u origin master 提交到指定的分支
-- git remote -v 查看当前关联的远程仓库
-
-- remote rm origin 删除关联的远程仓库
-
-- 查看公钥
-  - cd ~/.ssh
-  - cat id_rsa.pub
-- 修改 hosts 文件
-  - shift+command+g /etc/hosts
 
 ## ts antd
 
@@ -191,24 +172,5 @@ export default function ChildrenCom(props) {
 mac 强制刷新：command+shift+r
 
 mac 普通刷新：command+r
-
-- 自定义 ant 前缀
-
-```js
-preProcessor: {
-  loader: 'less-loader',
-    options: {
-      lessOptions: {
-      javascriptEnabled: true,
-      modifyVars: {
-      '@ant-prefix': 'ymx', //这个
-      },
-    },
-  },
-},
-  <ConfigProvider locale={zhCN} prefixCls="ymx">
-  <App />
-  </ConfigProvider>
-```
 
 在 Chrome 的开发者工具中，可以使用快捷键 Ctrl + P（Windows / Linux）或 Command + P（Mac）来在 Sources 面板中快速查找文件。

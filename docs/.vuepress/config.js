@@ -11,6 +11,8 @@ module.exports = {
       { text: "react", link: "/react/" },
       { text: "vue", link: "/vue/" },
       { text: "html", link: "/html/" },
+      { text: "git", link: "/git/" },
+      { text: "webpack", link: "/webpack/" },
     ],
     //sidebar: ["/", "/javascript/", "/css/", "/react/", "/vue/"],
     // sidebar: [
@@ -91,6 +93,18 @@ module.exports = {
         {
           title: "html",
           children: [{ title: "问题", path: "/html/html" }],
+        },
+      ],
+      "/git/": [
+        {
+          title: "git",
+          children: [{ title: "命令", path: "/git/git" }],
+        },
+      ],
+      "/webpack/": [
+        {
+          title: "mmmm",
+          children: [{ title: "webpack", path: "/webpack/webpack" }],
         },
       ],
     },
