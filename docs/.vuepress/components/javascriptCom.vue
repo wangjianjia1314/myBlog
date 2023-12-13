@@ -13,31 +13,18 @@ export default {
   mounted() {},
   methods: {},
 };
-let arr = [
-  { id: 1, name: "部门1", pid: 0 },
-  { id: 2, name: "部门2", pid: 1 },
-  { id: 6, name: "部门6", pid: 1 },
-  { id: 3, name: "部门3", pid: 1 },
-  { id: 4, name: "部门4", pid: 3 },
-  { id: 5, name: "部门5", pid: 4 },
-];
-function arrayToTree() {
-  const result = []; // 存放结果集
-  const itemMap = {}; //
-  arr.forEach((item) => {
-    item.children = [];
-    itemMap[item.id] = item;
-    if (itemMap[item.pid]) {
-      itemMap[item.pid].children.push(item);
+let obj = { a: 1, b: 2 };
+function shallowClone(source) {
+  let target = {};
+  for (let i in source) {
+    if (source.hasOwnProperty(i)) {
+      target[i] = source[i];
     }
-    if (item.pid === 0) {
-      result.push(itemMap[item.id]);
-    }
-  });
-  console.log(itemMap);
-  return result;
+  }
+  return target;
 }
-console.log(arrayToTree());
+let shallowCloneObj = shallowClone(obj);
+console.log(shallowCloneObj);
 </script>
 
 <style lang="scss" scoped></style>

@@ -7,6 +7,7 @@
 - git remote add origin https://github.com/username/username.github.io.git 关联远程仓库
 - git push -u origin master 提交到指定的分支
 - git remote -v 查看当前关联的远程仓库
+- git ls-files 查看 git 正在追踪的文件
 
 - git remote rm origin 删除关联的远程仓库
 - git rm -r docs/.vuepress/dist 删除已经被 git 追踪的目录 删除后需要提交

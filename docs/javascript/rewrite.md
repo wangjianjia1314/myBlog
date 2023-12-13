@@ -86,3 +86,48 @@ const instanceofs = (target, obj) => {
   return false;
 };
 ```
+
+## Array flat
+
+```js
+let arr = [1, 2, 3, [3, 4, 5], [5, 6, 7, [56, 7, [123]]]];
+//递归版
+function flat(arr) {
+  let newArr = [];
+  arr.forEach((i) => {
+    if (Array.isArray(i)) {
+      newArr = newArr.concat(flat(i));
+    } else {
+      newArr.push(i);
+    }
+  });
+  return newArr;
+}
+let newArr = arr
+  .toString()
+  .split(",")
+  .map((i) => +i);
+console.log(flat(newArr));
+console.log(flat(arr));
+// call 版
+```
+
+## Array filter
+
+```js
+const arr = [1, 2, 3, 4];
+Array.prototype.filters = function (cb) {
+  let newArr = [];
+  let arr = [...this];
+  for (let i in arr) {
+    if (arr.hasOwnProperty(i)) {
+      cb(arr[i], i, arr) && newArr.push(arr[i]);
+    }
+  }
+  return newArr;
+};
+let a = arr.filters((i, index, arr) => {
+  return i > 1;
+});
+console.log(a);
+```

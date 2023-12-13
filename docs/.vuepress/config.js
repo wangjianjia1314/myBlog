@@ -40,7 +40,7 @@ module.exports = {
           title: "javascript",
           collapsable: false,
           children: [
-            { title: "工具方法", path: "/javascript/ja" },
+            { title: "工具方法", path: "/javascript/methods" },
             { title: "Es6系列", path: "/javascript/Es6" },
             {
               title: "复写方法",

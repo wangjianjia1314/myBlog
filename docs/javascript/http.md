@@ -72,14 +72,24 @@
 
 ## 缓存
 
-- 协商缓存：
-- ETag 和 If-None-Match 是一对；Last-Modified 和 If-Modified-Since 是一对
-- 它们都属于协商缓存，对内容的有效性进行验证
-  - Last-Modified
-  - 响应头当中会带有 Last-Modified 值为最后一次修改的时间 以秒为单位 下次再请求时请求头会带入 If-Modified-Since 用于比对是否文件发生修改
-  - ETag
-  - 响应头当中会带有 ETag 值为资源生成的 hash 唯一值 下一次请求 If-None-Match 字段的值为 ETag 用于比对文件是否有修改
+<a target="_blank" href="https://mp.weixin.qq.com/s/Wvc0lkLpgyEW_u7bbMdvpQ">HTTP 缓存</a>
+
+- 协商缓存：如果命中，则返回 304
+  - Last-Modified，If-Modified-Since
+    - 浏览器第一次请求资源的时候，服务器返回的 header 上会带有一个 Last-Modified 字段，表示资源最后修改的时间。
+    - 当浏览器再次请求该资源时，请求头中会带有一个 If-Modified-Since 字段，这个值是第一次请求返回的 Last-Modified 的值。服务器收到这个请求后，If-Modified-Since 和当前的 Last-Modified 进行对比。如果相等，则说明资源未修改，返回 304，浏览器使用本地缓存。
+  - 问题 最小单位是秒。也就是说如果我短时间内资源发生了改变，Last-Modified 并不会发生变化；周期性变化。如果这个资源在一个周期内修改回原来的样子了，我们认为是可以使用缓存的，但是 Last-Modified 可不这样认为。所以，后来又引入一个 Etag。
+  - Etag
+    - Etag 一般是由文件内容 hash 生成的，也就是说它可以保证资源的唯一性，资源发生改变就会导致 Etag 发生改变。
+    - 同样地，在浏览器第一次请求资源时，服务器会返回一个 Etag 标识。当再次请求该资源时， 会通过 If-no-match 字段将 Etag 发送回服务器，然后服务器进行比较，如果相等，则返回 304 表示未修改。
+    - Last-Modified 和 Etag 是可以同时设置的，服务器会优先校验 Etag，如果 Etag 相等就会继续比对 Last-Modified，最后才会决定是否返回 304。\*\*
 - 强制缓存：
+  - 查看 header 头中的 Expire 和 Cache-control 来判断是否满足规则；
+  - Expire
+    - 这个字段包含了一个时间，过了这个时间，响应将会失效。
+    - 这个是个绝对时间，也就是说，如果我修改了客户端的本地时间，是不是就会导致判断缓存失效了呢。
+  - Cache-Control
+  - 在 HTTP/1.1 中，增加了一个字段 Cache-Control ，它包含一个 max-age 属性，该字段表示资源缓存的最大有效时间，这就是一个相对时间。
 - 强制缓存在缓存数据未失效的情况下，即 Cache-Control 的 max-age 没有过期或者 Expires 的缓存时间没有过期，那么就会直接使用浏览器的缓存数据，不会再向服务器发送任何请求。强制缓存生效时，HTPP 的状态码为 200。
 - 静态的 HTML 页面想要设置缓存的话，可以通过 HTTP 的 META 设置 expires 和 cache-control。
 

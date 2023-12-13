@@ -22,6 +22,19 @@ function getQueryParams() {
 console.log(getQueryParams());
 ```
 
+## 金额分段
+
+```js
+let str = "100000000000000000";
+const r = str.replace(/\B(?=(\d{3})+$)/g, ",");
+```
+
+## 随机颜色
+
+```js
+console.log(`#${Math.random().toString(16).substring(2, 8).padEnd(6, "0")}`);
+```
+
 ## 数组去重
 
 - <a target="_blank" href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Set?qs=Set">Set</a> 对象允许你存储任何类型的唯一值，无论是原始值或者是对象引用。

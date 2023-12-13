@@ -1,3 +1,10 @@
+## 箭头函数
+
+- 箭头函数没有 arguments（建议使用更好的语法，剩余运算符替代）
+- 箭头函数没有 prototype 属性，不能用作构造函数（不能用 new 关键字调用）
+- 箭头函数没有自己 this，它的 this 是词法的，引用的是上下文的 this，即在你写这行代码的时候就箭头函数的 this 就已经和外层执行上下文的 this 绑定了(这里个人认为并不代表完全是静态的,因为外层的上下文仍是动态的可以使用 call,apply,bind 修改,这里只是说明了箭头函数的 this 始终等于它上层上下文中的 this)
+- 不要在可能改变 this 指向的函数中使用箭头函数，类似 Vue 中的 methods,computed 中的方法,生命周期函数，Vue 将这些函数的 this 绑定了当前组件的 vm 实例，如果使用箭头函数会强行改变 this，因为箭头函数优先级最高
+
 ## let const var
 
 - var
@@ -200,15 +207,32 @@ let arr = [...obj]; // TypeError: Cannot spread non-iterable object
 
 ## 原型-原型链
 
-- 原型
-  - js 常被描述为基于原型的语言也就是说 每一个对象都拥有一个原型对象。
-- 原型链
-  - 当访问一个对象的属性时，不仅仅在该对象中查找，还会在该对象的原型，以及该对象原型的原型，依次层层向上查找。直到找到一个匹配的属性或到达原型链的末尾 null
-- 需要了解的-不一定要说
-  - 函数
-  - 每个函数都有一个特殊属性叫做原型 prototype fn.prototype 指向了原型对象
-  - 对象
-  - 每个对象默认都会有一个**proto**都是指向他的构造函数的原型对象的 prototype。
+- JavaScript 中，万物皆对象！但对象也是有区别的。分为普通对象和函数对象
+- 原型 就是原型对象 其实就是普通对象。但是 Function.prototype 除外 他是一个函数 对象
+- 每个函数对象都有一个 prototype 属性，这个属性指向函数的原型对象。
+- **proto**
+- JS 在创建对象（不论是普通对象还是函数对象）的时候，都有一个叫做**proto** 的内置属性，用于指向创建它的构造函数的原型对象。
+
+```js
+// 我们要记住两个概念（构造函数，实例）：
+// person1 是 构造函数 Person 的实例 person1为函数对象
+// 一个公式：
+// 实例的构造函数属性（constructor）指向构造函数。
+function Person(name, age, job) {
+  this.name = name;
+  this.age = age;
+  this.job = job;
+  this.sayName = function () {
+    alert(this.name);
+  };
+}
+var person1 = new Person("Zaxlct", 28, "Software Engineer");
+console.log(person1.constructor == Person);
+// 那 Person.prototype 为什么有 constructor 属性
+// 也就是在 Person 创建的时候，创建了一个它的实例对象并赋值给它的 prototype
+//原型对象（Person.prototype）是 构造函数（Person）的一个实例
+Person.prototype.constructor == Person;
+```
 
 ## a==1==2==3
 
@@ -281,12 +305,25 @@ function add(a) {
   - 方法 4
     - 展开运算符...
   ```js
+  //1
   let obj1 = { person: { name: "kobe", age: 41 }, sports: "basketball" };
   let obj2 = Object.assign({}, obj1);
   obj2.person.name = "wade";
   obj2.sports = "football";
   console.log(obj1);
   // { person: { name: 'wade', age: 41 }, sports: 'basketball' }
+  //2
+  let obj = { a: 1, b: 2 };
+  function shallowClone(source) {
+    let target = {};
+    for (let i in source) {
+      if (source.hasOwnProperty(i)) {
+        target[i] = source[i];
+      }
+    }
+    return target;
+  }
+  let shallowCloneObj = shallowClone(obj);
   ```
 
 ## 深拷贝
